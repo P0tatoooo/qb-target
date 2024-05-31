@@ -1,4 +1,5 @@
-local Bones = { Options = {}, Vehicle = { 'chassis', 'windscreen', 'seat_pside_r', 'seat_dside_r', 'bodyshell', 'suspension_lm', 'suspension_lr', 'platelight', 'attach_female', 'attach_male', 'bonnet', 'boot', 'chassis_dummy', 'chassis_Control', 'door_dside_f', 'door_dside_r', 'door_pside_f', 'door_pside_r', 'Gun_GripR', 'windscreen_f', 'platelight', 'VFX_Emitter', 'window_lf', 'window_lr', 'window_rf', 'window_rr', 'engine', 'gun_ammo', 'ROPE_ATTATCH', 'wheel_lf', 'wheel_lr', 'wheel_rf', 'wheel_rr', 'exhaust', 'overheat', 'seat_dside_f', 'seat_pside_f', 'Gun_Nuzzle', 'seat_r' } }
+local Bones = {Options = {}, Vehicle = {'chassis', 'windscreen', 'seat_pside_r', 'seat_dside_r', 'bodyshell', 'suspension_lm', 'suspension_lr', 'platelight', 'attach_female', 'attach_male', 'bonnet', 'boot', 'chassis_dummy', 'chassis_Control', 'door_dside_f', 'door_dside_r', 'door_pside_f', 'door_pside_r', 'Gun_GripR', 'windscreen_f', 'platelight', 'VFX_Emitter', 'window_lf', 'window_lr', 'window_rf', 'window_rr', 'engine', 'gun_ammo', 'ROPE_ATTATCH', 'wheel_lf', 'wheel_lr', 'wheel_rf', 'wheel_rr', 'exhaust', 'overheat', 'seat_dside_f', 'seat_pside_f', 'Gun_Nuzzle', 'seat_r'}}
+QBCore = exports['qb-core']:GetCoreObject()
 
 if Config.EnableDefaultOptions then
     local BackEngineVehicles = {
@@ -43,90 +44,248 @@ if Config.EnableDefaultOptions then
     }
 
     local function ToggleDoor(vehicle, door)
-        if GetVehicleDoorLockStatus(vehicle) < 2 then
-            if GetVehicleDoorAngleRatio(vehicle, door) > 0.0 then
-                SetVehicleDoorShut(vehicle, door, false)
-            else
-                SetVehicleDoorOpen(vehicle, door, false)
+        local driverPed = GetPedInVehicleSeat(vehicle, -1)
+        if not driverPed or driverPed == PlayerPedId() or not IsPedAPlayer(driverPed) then
+            if GetVehicleDoorLockStatus(vehicle) < 2 then
+                if GetVehicleDoorAngleRatio(vehicle, door) > 0.0 then
+                    SetVehicleDoorShut(vehicle, door, false)
+                else
+                    SetVehicleDoorOpen(vehicle, door, false)
+                end
             end
+        else
+            TriggerServerEvent('MyCity_CoreV2:VehicleUtils:SyncDoorSv', GetPlayerServerId(NetworkGetPlayerIndexFromPed(driverPed)), door)
         end
     end
 
     Bones.Options['seat_dside_f'] = {
-        ['Toggle Front Door'] = {
-            icon = 'fas fa-door-open',
-            label = 'Toggle Front Door',
+        ["Toggle Front Door"] = {
+            num = 6,
+            icon = "fas fa-door-open",
+            label = "Ouvrir/Fermer la porte conducteur",
             canInteract = function(entity)
+                if GetVehicleDoorLockStatus(entity) > 1 then return false end
                 return GetEntityBoneIndexByName(entity, 'door_dside_f') ~= -1
             end,
             action = function(entity)
                 ToggleDoor(entity, 0)
             end,
-            distance = 1.2
+            distance = 1.5
         },
+        ["Utiliser la radio"] = {
+            num = 3,
+            icon = "fas fa-radio",
+            label = "Utiliser la radio",
+            canInteract = function(entity)
+                return GetVehiclePedIsIn(PlayerPedId()) == entity
+            end,
+            action = function(entity)
+                ExecuteCommand('carradio')
+            end,
+            distance = 1.5
+        },
+        ["Toggle Hood"] = {
+            num = 7,
+            icon = "fas fa-truck-ramp-box",
+            label = "Ouvrir/Fermer le capot",
+            action = function(entity)
+                ToggleDoor(entity, BackEngineVehicles[GetEntityModel(entity)] and 5 or 4)
+            end,
+            canInteract = function(entity)
+                return GetVehiclePedIsIn(PlayerPedId()) == entity
+            end,
+            distance = 1.5
+        },
+        ["Toggle Trunk"] = {
+            num = 8,
+            icon = "fas fa-truck-ramp-box",
+            label = "Ouvrir/Fermer le coffre",
+            action = function(entity)
+                ToggleDoor(entity, BackEngineVehicles[GetEntityModel(entity)] and 4 or 5)
+            end,
+            canInteract = function(entity)
+                return GetVehiclePedIsIn(PlayerPedId()) == entity
+            end,
+            distance = 1.5
+        },
+        ["Activer le mode drift"] = {
+            num = 9,
+            icon = "fa-solid fa-car",
+            label = "Activer le mode drift",
+            canInteract = function(entity)
+                return GetVehiclePedIsIn(PlayerPedId()) == entity and not GetDriftTyresEnabled(entity)
+            end,
+            action = function(entity)
+                SetDriftTyresEnabled(entity, true)
+                SetVehicleEngineOn(entity, true, false)
+            end,
+            distance = 1.5
+        },
+        ["Désactiver le mode drift"] = {
+            num = 10,
+            icon = "fa-solid fa-car",
+            label = "Désactiver le mode drift",
+            canInteract = function(entity)
+                return GetVehiclePedIsIn(PlayerPedId()) == entity and GetDriftTyresEnabled(entity)
+            end,
+            action = function(entity)
+                SetDriftTyresEnabled(entity, false)
+                SetVehicleEngineOn(entity, true, false)
+            end,
+            distance = 1.5
+        }
     }
 
     Bones.Options['seat_pside_f'] = {
-        ['Toggle Front Door'] = {
-            icon = 'fas fa-door-open',
-            label = 'Toggle Front Door',
+        ["Toggle Front Door"] = {
+            num = 6,
+            icon = "fas fa-door-open",
+            label = "Ouvrir/Fermer la porte avant droite",
             canInteract = function(entity)
+                if GetVehicleDoorLockStatus(entity) > 1 then return false end
                 return GetEntityBoneIndexByName(entity, 'door_pside_f') ~= -1
             end,
             action = function(entity)
                 ToggleDoor(entity, 1)
             end,
-            distance = 1.2
+            distance = 1.5
+        },
+        ["Utiliser la radio"] = {
+            num = 1,
+            icon = "fas fa-radio",
+            label = "Utiliser la radio",
+            canInteract = function(entity)
+                return GetVehiclePedIsIn(PlayerPedId()) == entity
+            end,
+            action = function(entity)
+                ExecuteCommand('carradio')
+            end,
+            distance = 1.5
         }
     }
 
     Bones.Options['seat_dside_r'] = {
-        ['Toggle Rear Door'] = {
-            icon = 'fas fa-door-open',
-            label = 'Toggle Rear Door',
+        ["Toggle Rear Door"] = {
+            num = 6,
+            icon = "fas fa-door-open",
+            label = "Ouvrir/Fermer la porte arrière gauche",
             canInteract = function(entity)
+                if GetVehicleDoorLockStatus(entity) > 1 then return false end
                 return GetEntityBoneIndexByName(entity, 'door_dside_r') ~= -1
             end,
             action = function(entity)
                 ToggleDoor(entity, 2)
             end,
-            distance = 1.2
+            distance = 1.5
+        },
+        ["Utiliser la radio"] = {
+            num = 1,
+            icon = "fas fa-radio",
+            label = "Utiliser la radio",
+            canInteract = function(entity)
+                return GetVehiclePedIsIn(PlayerPedId()) == entity
+            end,
+            action = function(entity)
+                ExecuteCommand('carradio')
+            end,
+            distance = 1.5
         }
     }
 
     Bones.Options['seat_pside_r'] = {
-        ['Toggle Rear Door'] = {
-            icon = 'fas fa-door-open',
-            label = 'Toggle Rear Door',
+        ["Toggle Rear Door"] = {
+            num = 6,
+            icon = "fas fa-door-open",
+            label = "Ouvrir/Fermer la porte arrière droite",
             canInteract = function(entity)
+                if GetVehicleDoorLockStatus(entity) > 1 then return false end
                 return GetEntityBoneIndexByName(entity, 'door_pside_r') ~= -1
             end,
             action = function(entity)
                 ToggleDoor(entity, 3)
             end,
-            distance = 1.2
+            distance = 1.5
+        },
+        ["Utiliser la radio"] = {
+            num = 1,
+            icon = "fas fa-radio",
+            label = "Utiliser la radio",
+            canInteract = function(entity)
+                return GetEntityBoneIndexByName(entity, 'door_pside_r') ~= -1 and GetVehiclePedIsIn(PlayerPedId()) == entity
+            end,
+            action = function(entity)
+                ExecuteCommand('carradio')
+            end,
+            distance = 1.5
         }
     }
 
-    Bones.Options['bonnet'] = {
-        ['Toggle Hood'] = {
-            icon = 'fa-duotone fa-engine',
-            label = 'Toggle Hood',
+    Bones.Options['overheat'] = {
+        ["Toggle Hood"] = {
+            num = 1,
+            icon = "fas fa-hands",
+            label = "Ouvrir/Fermer le capot",
             action = function(entity)
                 ToggleDoor(entity, BackEngineVehicles[GetEntityModel(entity)] and 5 or 4)
             end,
-            distance = 0.9
+            canInteract = function(entity)
+                if GetVehicleDoorLockStatus(entity) > 1 then return false end
+                return IsPedOnFoot(PlayerPedId())
+            end,
+            distance = 1.5
+        },
+        ["Push Vehicle"] = {
+            num = 2,
+            icon = "fas fa-hands",
+            label = "Pousser le véhicule",
+            action = function(entity)
+                TriggerEvent('vehiclepush:client:push', entity)
+            end,
+            canInteract = function(entity)
+                return IsPedOnFoot(PlayerPedId()) and not Entity(entity).state.clamped
+            end,
+            distance = 1.5
         }
     }
 
     Bones.Options['boot'] = {
-        ['Toggle Trunk'] = {
-            icon = 'fas fa-truck-ramp-box',
-            label = 'Toggle Trunk',
+        ["Open Trunk"] = {
+            num = 1,
+            icon = "fas fa-truck-ramp-box",
+            label = "Accéder au coffre",
+            action = function(entity)
+                exports.ox_inventory:OpenTrunk(entity)
+            end,
+            canInteract = function(entity)
+                if GetVehicleDoorLockStatus(entity) > 1 then return false end
+                return IsPedOnFoot(PlayerPedId())
+            end,
+            distance = 1.5
+        },
+        ["Toggle Trunk"] = {
+            num = 2,
+            icon = "fas fa-truck-ramp-box",
+            label = "Ouvrir/Fermer le coffre",
             action = function(entity)
                 ToggleDoor(entity, BackEngineVehicles[GetEntityModel(entity)] and 4 or 5)
             end,
-            distance = 0.9
+            canInteract = function(entity)
+                if GetVehicleDoorLockStatus(entity) > 1 then return false end
+                return IsPedOnFoot(PlayerPedId())
+            end,
+            distance = 1.5
+        },
+        ["Push Vehicle"] = {
+            num = 3,
+            icon = "fas fa-hands",
+            label = "Pousser le véhicule",
+            action = function(entity)
+                TriggerEvent('vehiclepush:client:push', entity)
+            end,
+            canInteract = function(entity)
+                return IsPedOnFoot(PlayerPedId()) and not Entity(entity).state.clamped
+            end,
+            distance = 1.5
         }
     }
 end
