@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
     const config = {
-        StandardEyeIcon: "fas fa-eye",
+        StandardEyeIcon: "fa-regular fa-hand",
         StandardColor: "white",
-        SuccessColor: "#DC143C",
+        SuccessColor: "#ff0000",
     };
 
     const targetEye = document.getElementById("target-eye");
@@ -29,10 +29,11 @@ document.addEventListener("DOMContentLoaded", function () {
             targetOption.style.marginBottom = "0.2vh";
             targetOption.style.borderRadius = "0.15rem";
             targetOption.style.padding = "0.45rem";
-            targetOption.style.background = "rgba(23, 23, 23, 40%)";
+            targetOption.style.background = "linear-gradient(to right, #21262f, #161a20)";
             targetOption.style.color = config.StandardColor;
             const targetIcon = document.createElement("span");
             targetIcon.id = `target-icon-${index}`;
+            targetIcon.style.marginRight = "0.25rem";
             const icon = document.createElement("i");
             icon.className = itemData.icon;
             targetIcon.appendChild(icon);

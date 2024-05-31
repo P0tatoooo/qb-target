@@ -9,7 +9,7 @@ body {
     display: none;
     transform: translateY(-50%) translateX(-50%);
     font-size: 2vh;
-    text-shadow: 0.2vh 0.2vh 0.2vh #000000;
+    /*text-shadow: 0.2vh 0.2vh 0.2vh #000000;*/
 }
 
 #target-label-wrapper {
@@ -32,5 +32,5 @@ body {
     color: white;
     user-select: none;
     white-space: nowrap;
-    text-shadow: 0.2vh 0.2vh 0.2vh #000000;
+    /*text-shadow: 0.2vh 0.2vh 0.2vh #000000;*/
 }
