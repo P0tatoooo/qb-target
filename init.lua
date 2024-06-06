@@ -93,7 +93,19 @@ Config.GlobalPedOptions = {
 }
 
 Config.GlobalVehicleOptions = {
-
+    options = {
+        {
+            icon = "fas fa-hands",
+            label = "Détruire le véhicule",
+            action = function(entity)
+                exports.MyCity_CoreV2:DestroyVehicle(entity)
+            end,
+            canInteract = function(entity)
+                return IsPedOnFoot(PlayerPedId()) and exports.MyCity_CoreV2:CanChopVehicle()
+            end,
+            distance = 1.5
+        },
+    },
 }
 
 Config.GlobalObjectOptions = {
@@ -146,7 +158,18 @@ CreateThread(function()
 		local QBCore = exports['qb-core']:GetCoreObject()
 		local PlayerData = QBCore.Functions.GetPlayerData()
 
-		ItemCheck = QBCore.Functions.HasItem
+		ItemCheck = function(item)
+            if type(item) == 'table' then
+                for k,v in pairs(item) do
+                    if QBCore.Functions.HasItem(v) then
+                        return true
+                    end
+                end
+                return false
+            else
+                return QBCore.Functions.HasItem(item)
+            end
+        end
 
 		JobCheck = function(job)
 			if type(job) == 'table' then

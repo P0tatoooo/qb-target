@@ -115,7 +115,7 @@ local function RaycastCamera(flag, playerCoords)
 		if result ~= 1 then
 			local distance = playerCoords and #(playerCoords - endCoords)
 
-			if flag == 30 and entityHit then
+			if flag == 30 and entityHit and DoesEntityExist(entityHit) then
 				entityHit = HasEntityClearLosToEntity(entityHit, playerPed, 7) and entityHit
 			end
 
@@ -295,6 +295,7 @@ local function EnableTarget()
 			end
 			EnableControlAction(0, 30, true) -- move left/right
 			EnableControlAction(0, 31, true) -- move forward/back
+            EnableControlAction(0, 249, true) -- Talk
 
 			if not hasFocus then
 				EnableControlAction(0, 1, true) -- look left/right
@@ -312,7 +313,28 @@ local function EnableTarget()
 		if flag == 30 then flag = -1 else flag = 30 end
 
 		local coords, distance, entity, entityType = RaycastCamera(flag)
-		if distance <= Config.MaxDistance then
+
+		if distance <= Config.MaxDistance or GetVehiclePedIsIn(playerPed) ~= 0 then
+            if distance > Config.MaxDistance or entityType == 0 then
+                entity = GetVehiclePedIsIn(playerPed)
+                if entity ~= 0 then
+                    local seatPedIsIn
+                    if GetPedInVehicleSeat(entity, -1) == playerPed then
+                        seatPedIsIn = 'seat_dside_f'
+                    elseif GetPedInVehicleSeat(entity, 0) == playerPed then
+                        seatPedIsIn = 'seat_pside_f'
+                    elseif GetPedInVehicleSeat(entity, 1) == playerPed then
+                        seatPedIsIn = 'seat_dside_r'
+                    elseif GetPedInVehicleSeat(entity, 2) == playerPed then
+                        seatPedIsIn = 'seat_pside_r'
+                    end
+                    if seatPedIsIn then
+                        distance = 0.0
+                        entityType2 = GetEntityType(entity)
+                        coords = GetWorldPositionOfEntityBone(entity, GetEntityBoneIndexByName(entity, seatPedIsIn))
+                    end
+                end
+            end
 			if entityType > 0 then
 				-- Local(non-net) entity targets
 				if Entities[entity] then
@@ -363,9 +385,16 @@ local function EnableTarget()
 										end
 									end
 								else
-									LeftTarget()
-									DrawOutlineEntity(entity, false)
-									break
+                                    if DoesEntityExist(entity) and GetVehiclePedIsIn(playerPed) == entity then
+                                        if not hasFocus and IsDisabledControlPressed(0, Config.MenuControlKey) then
+                                            EnableNUI(nuiData)
+                                            DrawOutlineEntity(entity, false)
+                                        end
+                                    else
+                                        LeftTarget()
+                                        DrawOutlineEntity(entity, false)
+                                        break
+                                    end
 								end
 								Wait(0)
 							end
@@ -419,6 +448,10 @@ local function EnableTarget()
 						DrawOutlineEntity(entity, true)
 						while targetActive and success do
 							local newCoords, dist = RaycastCamera(flag)
+                            if GetVehiclePedIsIn(PlayerPedId()) ~= 0 then
+                                newCoords = GetEntityCoords(PlayerPedId())
+                                dist = #(newCoords - closestZone.center)
+                            end
 							if not closestZone:isPointInside(newCoords) or dist > closestZone.targetoptions.distance then
 								LeftTarget()
 								DrawOutlineEntity(entity, false)
@@ -435,8 +468,56 @@ local function EnableTarget()
 						LeftTarget()
 						DrawOutlineEntity(entity, false)
 					end
-				else
-					sleep += 20
+                elseif entityType2 and entityType2 > 0 then
+                    local closestBone, _, closestBoneName = CheckBones(coords, entity, Bones.Vehicle)
+                    local datatable = Bones.Options[closestBoneName]
+
+                    if datatable and next(datatable) and closestBone then
+                        local slot = SetupOptions(datatable, entity, distance)
+                        if next(nuiData) then
+                            success = true
+                            SendNUIMessage({ response = 'foundTarget', data = nuiData[slot].targeticon, options = nuiData })
+                            DrawOutlineEntity(entity, true)
+                            while targetActive and success do
+                                local coords2, dist, entity2 = RaycastCamera(flag)
+                                if entity == entity2 then
+                                    local closestBone2 = CheckBones(coords2, entity, Bones.Vehicle)
+                                    if closestBone ~= closestBone2 then
+                                        LeftTarget()
+                                        DrawOutlineEntity(entity, false)
+                                        break
+                                    elseif not hasFocus and IsDisabledControlPressed(0, Config.MenuControlKey) then
+                                        EnableNUI(nuiData)
+                                        DrawOutlineEntity(entity, false)
+                                    else
+                                        for k, v in pairs(sendDistance) do
+                                            if v and dist > k then
+                                                LeftTarget()
+                                                DrawOutlineEntity(entity, false)
+                                                break
+                                            end
+                                        end
+                                    end
+                                else
+                                    if DoesEntityExist(entity) and GetVehiclePedIsIn(playerPed) == entity then
+                                        if not hasFocus and IsDisabledControlPressed(0, Config.MenuControlKey) then
+                                            EnableNUI(nuiData)
+                                            DrawOutlineEntity(entity, false)
+                                        end
+                                    else
+                                        LeftTarget()
+                                        DrawOutlineEntity(entity, false)
+                                        break
+                                    end
+                                end
+                                Wait(0)
+                            end
+                            LeftTarget()
+                            DrawOutlineEntity(entity, false)
+                        end
+                    end
+                else
+                    sleep += 20
 				end
 			else
 				LeftTarget()

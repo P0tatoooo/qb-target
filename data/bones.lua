@@ -133,7 +133,45 @@ if Config.EnableDefaultOptions then
                 SetVehicleEngineOn(entity, true, false)
             end,
             distance = 1.5
-        }
+        },
+        ["Sortir la personne du véhicule"] = {
+            icon = "fas fa-door-open",
+            label = "Sortir la personne du véhicule",
+            job = {police = 0, ambulance = 0},
+            canInteract = function(entity)
+                if GetVehicleDoorLockStatus(entity) > 1 then return false end
+                return IsPedOnFoot(PlayerPedId()) and not IsVehicleSeatFree(entity, -1)
+            end,
+            action = function(entity)
+                TriggerServerEvent('police:server:SetPlayerOutVehicle', GetPlayerServerId(NetworkGetPlayerIndexFromPed(GetPedInVehicleSeat(entity, -1))))
+            end,
+            distance = 1.5
+        },
+        ["Crocheter le véhicule"] = {
+            icon = "fas fa-door-open",
+            label = "Crocheter le véhicule",
+            job = {police = 0},
+            canInteract = function(entity)
+                if GetVehicleDoorLockStatus(entity) ~= 2 and GetVehicleDoorLockStatus(entity) ~= 7 then return false end
+                return IsPedOnFoot(PlayerPedId())
+            end,
+            action = function(entity)
+                TriggerEvent('MyCity_CoreV2:Police:UnlockVehicle', entity)
+            end,
+            distance = 1.5
+        },
+        ["Utiliser la radio LSPD"] = {
+            icon = "fas fa-radio",
+            label = "Utiliser la radio LSPD",
+            job = 'police',
+            canInteract = function(entity)
+                return GetVehiclePedIsIn(PlayerPedId()) == entity and GetVehicleClass(entity) == 18
+            end,
+            action = function(entity)
+                TriggerEvent('MyCity_VehicleRadio:ToggleRadio')
+            end,
+            distance = 1.5
+        },
     }
 
     Bones.Options['seat_pside_f'] = {
@@ -161,7 +199,33 @@ if Config.EnableDefaultOptions then
                 ExecuteCommand('carradio')
             end,
             distance = 1.5
-        }
+        },
+        ["Toggle Rear Door"] = {
+            num = 7,
+            icon = "fas fa-door-open",
+            label = "Sortir la personne du véhicule",
+            job = {police = 0, ambulance = 0},
+            canInteract = function(entity)
+                if GetVehicleDoorLockStatus(entity) > 1 then return false end
+                return IsPedOnFoot(PlayerPedId()) and not IsVehicleSeatFree(entity, 0)
+            end,
+            action = function(entity)
+                TriggerServerEvent('police:server:SetPlayerOutVehicle', GetPlayerServerId(NetworkGetPlayerIndexFromPed(GetPedInVehicleSeat(entity, 0))))
+            end,
+            distance = 1.5
+        },
+        ["Utiliser la radio LSPD"] = {
+            icon = "fas fa-radio",
+            label = "Utiliser la radio LSPD",
+            job = 'police',
+            canInteract = function(entity)
+                return GetVehiclePedIsIn(PlayerPedId()) == entity and GetVehicleClass(entity) == 18
+            end,
+            action = function(entity)
+                TriggerEvent('MyCity_VehicleRadio:ToggleRadio')
+            end,
+            distance = 1.5
+        },
     }
 
     Bones.Options['seat_dside_r'] = {
@@ -189,7 +253,21 @@ if Config.EnableDefaultOptions then
                 ExecuteCommand('carradio')
             end,
             distance = 1.5
-        }
+        },
+        ["Toggle Rear Door"] = {
+            num = 7,
+            icon = "fas fa-door-open",
+            label = "Sortir la personne du véhicule",
+            job = {police = 0, ambulance = 0},
+            canInteract = function(entity)
+                if GetVehicleDoorLockStatus(entity) > 1 then return false end
+                return IsPedOnFoot(PlayerPedId()) and not IsVehicleSeatFree(entity, 1)
+            end,
+            action = function(entity)
+                TriggerServerEvent('police:server:SetPlayerOutVehicle', GetPlayerServerId(NetworkGetPlayerIndexFromPed(GetPedInVehicleSeat(entity, 1))))
+            end,
+            distance = 1.5
+        },
     }
 
     Bones.Options['seat_pside_r'] = {
@@ -217,7 +295,21 @@ if Config.EnableDefaultOptions then
                 ExecuteCommand('carradio')
             end,
             distance = 1.5
-        }
+        },
+        ["Toggle Rear Door"] = {
+            num = 7,
+            icon = "fas fa-door-open",
+            label = "Sortir la personne du véhicule",
+            job = {police = 0, ambulance = 0},
+            canInteract = function(entity)
+                if GetVehicleDoorLockStatus(entity) > 1 then return false end
+                return IsPedOnFoot(PlayerPedId()) and not IsVehicleSeatFree(entity, 2)
+            end,
+            action = function(entity)
+                TriggerServerEvent('police:server:SetPlayerOutVehicle', GetPlayerServerId(NetworkGetPlayerIndexFromPed(GetPedInVehicleSeat(entity, 2))))
+            end,
+            distance = 1.5
+        },
     }
 
     Bones.Options['overheat'] = {
