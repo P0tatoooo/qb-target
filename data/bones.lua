@@ -43,6 +43,31 @@ if Config.EnableDefaultOptions then
         [`tyrant`] = true
     }
 
+    local vehicleClasses = {
+        [0] = true,
+        [1] = true,
+        [2] = true,
+        [3] = true,
+        [4] = true,
+        [5] = true,
+        [6] = true,
+        [7] = true,
+        [8] = true,
+        [9] = true,
+        [10] = true,
+        [11] = true,
+        [12] = true,
+        [13] = false,
+        [14] = false,
+        [15] = false,
+        [16] = false,
+        [17] = true,
+        [18] = true,
+        [19] = true,
+        [20] = true,
+        [21] = false
+    }
+
     local function ToggleDoor(vehicle, door)
         local driverPed = GetPedInVehicleSeat(vehicle, -1)
         if not driverPed or driverPed == PlayerPedId() or not IsPedAPlayer(driverPed) then
@@ -113,7 +138,7 @@ if Config.EnableDefaultOptions then
             icon = "fa-solid fa-car",
             label = "Activer le mode drift",
             canInteract = function(entity)
-                return GetVehiclePedIsIn(PlayerPedId()) == entity and not GetDriftTyresEnabled(entity)
+                return GetVehiclePedIsIn(PlayerPedId()) == entity and not GetDriftTyresEnabled(entity) and vehicleClasses[GetEntityModel(entity)]
             end,
             action = function(entity)
                 SetDriftTyresEnabled(entity, true)
@@ -169,6 +194,18 @@ if Config.EnableDefaultOptions then
             end,
             action = function(entity)
                 TriggerEvent('MyCity_VehicleRadio:ToggleRadio')
+            end,
+            distance = 1.5
+        },
+        ["Prendre les appels de la centrale MyTaxis"] = {
+            icon = "fas fa-radio",
+            label = "Prendre les appels de la centrale MyTaxis",
+            job = 'taxi',
+            canInteract = function(entity)
+                return GetVehiclePedIsIn(PlayerPedId()) == entity and GetEntityModel(entity) == `streitertaxi`
+            end,
+            action = function(entity)
+                TriggerEvent('MyCity_Jobs:Taxi:startNpcJob')
             end,
             distance = 1.5
         },

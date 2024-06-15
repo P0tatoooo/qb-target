@@ -115,7 +115,7 @@ local function RaycastCamera(flag, playerCoords)
 		if result ~= 1 then
 			local distance = playerCoords and #(playerCoords - endCoords)
 
-			if flag == 30 and entityHit and DoesEntityExist(entityHit) then
+			if flag == 30 and tonumber(entityHit) and DoesEntityExist(entityHit) then
 				entityHit = HasEntityClearLosToEntity(entityHit, playerPed, 7) and entityHit
 			end
 
@@ -225,7 +225,8 @@ local function CheckEntity(flag, datatable, entity, distance)
 			LeftTarget()
 			DrawOutlineEntity(entity, false)
 			break
-		elseif not hasFocus and IsDisabledControlPressed(0, Config.MenuControlKey) then
+		elseif not hasFocus and targetFocusActivated then
+			targetFocusActivated = nil
 			EnableNUI(nuiData)
 			DrawOutlineEntity(entity, false)
 		else
@@ -372,7 +373,8 @@ local function EnableTarget()
 										LeftTarget()
 										DrawOutlineEntity(entity, false)
 										break
-									elseif not hasFocus and IsDisabledControlPressed(0, Config.MenuControlKey) then
+									elseif not hasFocus and targetFocusActivated then
+										targetFocusActivated = nil
 										EnableNUI(nuiData)
 										DrawOutlineEntity(entity, false)
 									else
@@ -386,7 +388,8 @@ local function EnableTarget()
 									end
 								else
                                     if DoesEntityExist(entity) and GetVehiclePedIsIn(playerPed) == entity then
-                                        if not hasFocus and IsDisabledControlPressed(0, Config.MenuControlKey) then
+                                        if not hasFocus and targetFocusActivated then
+											targetFocusActivated = nil
                                             EnableNUI(nuiData)
                                             DrawOutlineEntity(entity, false)
                                         end
@@ -456,7 +459,8 @@ local function EnableTarget()
 								LeftTarget()
 								DrawOutlineEntity(entity, false)
 								break
-							elseif not hasFocus and IsDisabledControlPressed(0, Config.MenuControlKey) then
+							elseif not hasFocus and targetFocusActivated then
+								targetFocusActivated = nil
 								EnableNUI(nuiData)
 								DrawOutlineEntity(entity, false)
 							end
@@ -486,7 +490,8 @@ local function EnableTarget()
                                         LeftTarget()
                                         DrawOutlineEntity(entity, false)
                                         break
-                                    elseif not hasFocus and IsDisabledControlPressed(0, Config.MenuControlKey) then
+                                    elseif not hasFocus and targetFocusActivated then
+										targetFocusActivated = nil
                                         EnableNUI(nuiData)
                                         DrawOutlineEntity(entity, false)
                                     else
@@ -500,7 +505,8 @@ local function EnableTarget()
                                     end
                                 else
                                     if DoesEntityExist(entity) and GetVehiclePedIsIn(playerPed) == entity then
-                                        if not hasFocus and IsDisabledControlPressed(0, Config.MenuControlKey) then
+                                        if not hasFocus and targetFocusActivated then
+											targetFocusActivated = nil
                                             EnableNUI(nuiData)
                                             DrawOutlineEntity(entity, false)
                                         end
@@ -1332,10 +1338,30 @@ CreateThread(function()
 		RegisterCommand('+playerTarget', function()
 			CreateThread(EnableTarget)
 		end, false)
+		RegisterCommand('+playerTarget2', function()
+			CreateThread(EnableTarget)
+		end, false)
 		RegisterCommand('-playerTarget', DisableTarget, false)
-		RegisterKeyMapping('+playerTarget', 'Enable targeting', 'keyboard', Config.OpenKey)
+		RegisterKeyMapping('+playerTarget', 'Activer le 3ème oeil', 'keyboard', Config.OpenKey)
+		RegisterCommand('-playerTarget2', DisableTarget, false)
+		RegisterKeyMapping('+playerTarget2', "Activer le 3ème oeil - Manette", 'PAD_ANALOGBUTTON', 'LLEFT_INDEX')
 		TriggerEvent('chat:removeSuggestion', '/+playerTarget')
 		TriggerEvent('chat:removeSuggestion', '/-playerTarget')
+		TriggerEvent('chat:removeSuggestion', '/+playerTarget2')
+		TriggerEvent('chat:removeSuggestion', '/-playerTarget2')
+
+		RegisterCommand('+targetFocus', function()
+			targetFocusActivated = true
+		end, false)
+		RegisterCommand('+targetFocus2', function()
+			targetFocusActivated = false
+		end, false)
+		RegisterKeyMapping('+targetFocus', 'Donner le focus au 3ème oeil', 'MOUSE_BUTTON', 'MOUSE_RIGHT')
+		RegisterKeyMapping('+targetFocus2', "Donner le focus au 3ème oeil - Manette", 'PAD_ANALOGBUTTON', 'RDOWN_INDEX')
+		TriggerEvent('chat:removeSuggestion', '/+targetFocus')
+		TriggerEvent('chat:removeSuggestion', '/-targetFocus')
+		TriggerEvent('chat:removeSuggestion', '/+targetFocus2')
+		TriggerEvent('chat:removeSuggestion', '/-targetFocus2')
 	end
 
 	if table.type(Config.CircleZones) ~= 'empty' then
