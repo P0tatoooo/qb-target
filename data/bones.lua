@@ -209,6 +209,18 @@ if Config.EnableDefaultOptions then
             end,
             distance = 1.5
         },
+        ["Gérer les clés du véhicule"] = {
+            icon = "fas fa-key",
+            label = "Gérer les clés du véhicule",
+            canInteract = function(entity)
+                if GetVehicleDoorLockStatus(entity) > 1 then return false end
+                return QBCore.Functions.GetPlayerData().citizenid == Entity(entity).state.owner
+            end,
+            action = function(entity)
+                TriggerServerEvent('MyCity_CoreV2:VehicleLock:OpenVehicleKeysMenu', entity)
+            end,
+            distance = 1.5
+        },
     }
 
     Bones.Options['seat_pside_f'] = {
