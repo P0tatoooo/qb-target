@@ -217,7 +217,7 @@ if Config.EnableDefaultOptions then
                 return QBCore.Functions.GetPlayerData().citizenid == Entity(entity).state.owner
             end,
             action = function(entity)
-                TriggerServerEvent('MyCity_CoreV2:VehicleLock:OpenVehicleKeysMenu', entity)
+                TriggerEvent('MyCity_CoreV2:VehicleLock:OpenVehicleKeysMenu', {entity = entity})
             end,
             distance = 1.5
         },

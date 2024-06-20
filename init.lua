@@ -101,7 +101,7 @@ Config.GlobalVehicleOptions = {
                 exports.MyCity_CoreV2:DestroyVehicle(entity)
             end,
             canInteract = function(entity)
-                return IsPedOnFoot(PlayerPedId()) and exports.MyCity_CoreV2:CanChopVehicle()
+                return IsPedOnFoot(PlayerPedId()) and exports.MyCity_CoreV2:CheckCanChopVehicle()
             end,
             distance = 1.5
         },
