@@ -84,8 +84,7 @@ if Config.EnableDefaultOptions then
     end
 
     Bones.Options['seat_dside_f'] = {
-        ["Toggle Front Door"] = {
-            num = 6,
+        ["Ouvrir/Fermer la porte conducteur"] = {
             icon = "fas fa-door-open",
             label = "Ouvrir/Fermer la porte conducteur",
             canInteract = function(entity)
@@ -98,7 +97,6 @@ if Config.EnableDefaultOptions then
             distance = 1.5
         },
         ["Utiliser la radio"] = {
-            num = 3,
             icon = "fas fa-radio",
             label = "Utiliser la radio",
             canInteract = function(entity)
@@ -109,8 +107,7 @@ if Config.EnableDefaultOptions then
             end,
             distance = 1.5
         },
-        ["Toggle Hood"] = {
-            num = 7,
+        ["Ouvrir/Fermer le capot"] = {
             icon = "fas fa-truck-ramp-box",
             label = "Ouvrir/Fermer le capot",
             action = function(entity)
@@ -121,8 +118,7 @@ if Config.EnableDefaultOptions then
             end,
             distance = 1.5
         },
-        ["Toggle Trunk"] = {
-            num = 8,
+        ["Ouvrir/Fermer le coffre"] = {
             icon = "fas fa-truck-ramp-box",
             label = "Ouvrir/Fermer le coffre",
             action = function(entity)
@@ -134,7 +130,6 @@ if Config.EnableDefaultOptions then
             distance = 1.5
         },
         ["Activer le mode drift"] = {
-            num = 9,
             icon = "fa-solid fa-car",
             label = "Activer le mode drift",
             canInteract = function(entity)
@@ -147,7 +142,6 @@ if Config.EnableDefaultOptions then
             distance = 1.5
         },
         ["Désactiver le mode drift"] = {
-            num = 10,
             icon = "fa-solid fa-car",
             label = "Désactiver le mode drift",
             canInteract = function(entity)
@@ -224,8 +218,7 @@ if Config.EnableDefaultOptions then
     }
 
     Bones.Options['seat_pside_f'] = {
-        ["Toggle Front Door"] = {
-            num = 6,
+        ["Ouvrir/Fermer la porte avant droite"] = {
             icon = "fas fa-door-open",
             label = "Ouvrir/Fermer la porte avant droite",
             canInteract = function(entity)
@@ -238,7 +231,6 @@ if Config.EnableDefaultOptions then
             distance = 1.5
         },
         ["Utiliser la radio"] = {
-            num = 1,
             icon = "fas fa-radio",
             label = "Utiliser la radio",
             canInteract = function(entity)
@@ -249,8 +241,7 @@ if Config.EnableDefaultOptions then
             end,
             distance = 1.5
         },
-        ["Toggle Rear Door"] = {
-            num = 7,
+        ["Sortir la personne du véhicule"] = {
             icon = "fas fa-door-open",
             label = "Sortir la personne du véhicule",
             job = {police = 0, ambulance = 0},
@@ -278,8 +269,7 @@ if Config.EnableDefaultOptions then
     }
 
     Bones.Options['seat_dside_r'] = {
-        ["Toggle Rear Door"] = {
-            num = 6,
+        ["Ouvrir/Fermer la porte arrière gauche"] = {
             icon = "fas fa-door-open",
             label = "Ouvrir/Fermer la porte arrière gauche",
             canInteract = function(entity)
@@ -292,7 +282,6 @@ if Config.EnableDefaultOptions then
             distance = 1.5
         },
         ["Utiliser la radio"] = {
-            num = 1,
             icon = "fas fa-radio",
             label = "Utiliser la radio",
             canInteract = function(entity)
@@ -303,8 +292,7 @@ if Config.EnableDefaultOptions then
             end,
             distance = 1.5
         },
-        ["Toggle Rear Door"] = {
-            num = 7,
+        ["Sortir la personne du véhicule"] = {
             icon = "fas fa-door-open",
             label = "Sortir la personne du véhicule",
             job = {police = 0, ambulance = 0},
@@ -320,8 +308,7 @@ if Config.EnableDefaultOptions then
     }
 
     Bones.Options['seat_pside_r'] = {
-        ["Toggle Rear Door"] = {
-            num = 6,
+        ["Ouvrir/Fermer la porte arrière droite"] = {
             icon = "fas fa-door-open",
             label = "Ouvrir/Fermer la porte arrière droite",
             canInteract = function(entity)
@@ -334,7 +321,6 @@ if Config.EnableDefaultOptions then
             distance = 1.5
         },
         ["Utiliser la radio"] = {
-            num = 1,
             icon = "fas fa-radio",
             label = "Utiliser la radio",
             canInteract = function(entity)
@@ -345,8 +331,7 @@ if Config.EnableDefaultOptions then
             end,
             distance = 1.5
         },
-        ["Toggle Rear Door"] = {
-            num = 7,
+        ["Sortir la personne du véhicule"] = {
             icon = "fas fa-door-open",
             label = "Sortir la personne du véhicule",
             job = {police = 0, ambulance = 0},
@@ -362,8 +347,7 @@ if Config.EnableDefaultOptions then
     }
 
     Bones.Options['overheat'] = {
-        ["Toggle Hood"] = {
-            num = 1,
+        ["Ouvrir/Fermer le capot"] = {
             icon = "fas fa-hands",
             label = "Ouvrir/Fermer le capot",
             action = function(entity)
@@ -375,8 +359,7 @@ if Config.EnableDefaultOptions then
             end,
             distance = 1.5
         },
-        ["Push Vehicle"] = {
-            num = 2,
+        ["Pousser le véhicule"] = {
             icon = "fas fa-hands",
             label = "Pousser le véhicule",
             action = function(entity)
@@ -390,8 +373,7 @@ if Config.EnableDefaultOptions then
     }
 
     Bones.Options['boot'] = {
-        ["Open Trunk"] = {
-            num = 1,
+        ["Accéder au coffre"] = {
             icon = "fas fa-truck-ramp-box",
             label = "Accéder au coffre",
             action = function(entity)
@@ -403,8 +385,7 @@ if Config.EnableDefaultOptions then
             end,
             distance = 1.5
         },
-        ["Toggle Trunk"] = {
-            num = 2,
+        ["Ouvrir/Fermer le coffre"] = {
             icon = "fas fa-truck-ramp-box",
             label = "Ouvrir/Fermer le coffre",
             action = function(entity)
@@ -416,8 +397,7 @@ if Config.EnableDefaultOptions then
             end,
             distance = 1.5
         },
-        ["Push Vehicle"] = {
-            num = 3,
+        ["Pousser le véhicule"] = {
             icon = "fas fa-hands",
             label = "Pousser le véhicule",
             action = function(entity)
