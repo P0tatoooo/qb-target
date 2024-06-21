@@ -354,7 +354,7 @@ if Config.EnableDefaultOptions then
                 ToggleDoor(entity, BackEngineVehicles[GetEntityModel(entity)] and 5 or 4)
             end,
             canInteract = function(entity)
-                if GetVehicleDoorLockStatus(entity) > 1 then return false end
+                if GetVehicleDoorLockStatus(entity) > 1 or GetVehicleClass(entity) == 8 then return false end
                 return IsPedOnFoot(PlayerPedId())
             end,
             distance = 1.5
@@ -369,7 +369,43 @@ if Config.EnableDefaultOptions then
                 return IsPedOnFoot(PlayerPedId()) and not Entity(entity).state.clamped
             end,
             distance = 1.5
-        }
+        },
+        ["Utiliser la radio"] = {
+            icon = "fas fa-radio",
+            label = "Utiliser la radio",
+            canInteract = function(entity)
+                return GetVehiclePedIsIn(PlayerPedId()) == entity and GetVehicleClass(entity) == 8
+            end,
+            action = function(entity)
+                ExecuteCommand('carradio')
+            end,
+            distance = 1.5
+        },
+        ["Utiliser la radio LSPD"] = {
+            icon = "fas fa-radio",
+            label = "Utiliser la radio LSPD",
+            job = 'police',
+            canInteract = function(entity)
+                print(GetVehicleClass(entity))
+                return GetVehiclePedIsIn(PlayerPedId()) == entity and GetVehicleClass(entity) == 18
+            end,
+            action = function(entity)
+                TriggerEvent('MyCity_VehicleRadio:ToggleRadio')
+            end,
+            distance = 1.5
+        },
+        ["Gérer les clés du véhicule"] = {
+            icon = "fas fa-key",
+            label = "Gérer les clés du véhicule",
+            canInteract = function(entity)
+                if GetVehicleDoorLockStatus(entity) > 1 then return false end
+                return QBCore.Functions.GetPlayerData().citizenid == Entity(entity).state.owner and GetVehicleClass(entity) == 8
+            end,
+            action = function(entity)
+                TriggerEvent('MyCity_CoreV2:VehicleLock:OpenVehicleKeysMenu', {entity = entity})
+            end,
+            distance = 1.5
+        },
     }
 
     Bones.Options['boot'] = {
