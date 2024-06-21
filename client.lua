@@ -115,7 +115,7 @@ local function RaycastCamera(flag, playerCoords)
 		if result ~= 1 then
 			local distance = playerCoords and #(playerCoords - endCoords)
 
-			if flag == 30 and tonumber(entityHit) and DoesEntityExist(entityHit) then
+			if flag == 30 and tonumber(entityHit) and DoesEntityExist(tonumber(entityHit)) then
 				entityHit = HasEntityClearLosToEntity(entityHit, playerPed, 7) and entityHit
 			end
 
