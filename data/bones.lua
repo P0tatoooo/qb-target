@@ -179,10 +179,10 @@ if Config.EnableDefaultOptions then
             end,
             distance = 1.5
         },
-        ["Utiliser la radio LSPD"] = {
+        ["Utiliser la radio longue portée"] = {
             icon = "fas fa-radio",
-            label = "Utiliser la radio LSPD",
-            job = 'police',
+            label = "Utiliser la radio longue portée",
+            job = {police = 0, ambulance = 0},
             canInteract = function(entity)
                 return GetVehiclePedIsIn(PlayerPedId()) == entity and GetVehicleClass(entity) == 18
             end,
@@ -254,10 +254,10 @@ if Config.EnableDefaultOptions then
             end,
             distance = 1.5
         },
-        ["Utiliser la radio LSPD"] = {
+        ["Utiliser la radio longue portée"] = {
             icon = "fas fa-radio",
-            label = "Utiliser la radio LSPD",
-            job = 'police',
+            label = "Utiliser la radio longue portée",
+            job = {police = 0, ambulance = 0},
             canInteract = function(entity)
                 return GetVehiclePedIsIn(PlayerPedId()) == entity and GetVehicleClass(entity) == 18
             end,
@@ -381,12 +381,11 @@ if Config.EnableDefaultOptions then
             end,
             distance = 1.5
         },
-        ["Utiliser la radio LSPD"] = {
+        ["Utiliser la radio longue portée"] = {
             icon = "fas fa-radio",
-            label = "Utiliser la radio LSPD",
-            job = 'police',
+            label = "Utiliser la radio longue portée",
+            job = {police = 0, ambulance = 0},
             canInteract = function(entity)
-                print(GetVehicleClass(entity))
                 return GetVehiclePedIsIn(PlayerPedId()) == entity and GetVehicleClass(entity) == 18
             end,
             action = function(entity)
