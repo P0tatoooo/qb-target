@@ -173,8 +173,8 @@ CreateThread(function()
 
 		JobCheck = function(job)
 			if type(job) == 'table' then
-				job = job[PlayerData.job.name]
-				if job and PlayerData.job.grade.level >= job then
+				job = tonumber(job[PlayerData.job.name])
+				if job and tonumber(PlayerData.job.grade.level) >= job then
 					return true
 				end
 			elseif job == 'all' or job == PlayerData.job.name then
