@@ -334,7 +334,7 @@ local function EnableTarget()
                         entityType2 = GetEntityType(entity)
                         coords = GetWorldPositionOfEntityBone(entity, GetEntityBoneIndexByName(entity, seatPedIsIn))
 						if seatPedIsIn == 'seat_dside_f' then
-							if GetVehicleClass(entity) == 8 or GetEntityModel(entity) == `policeb`then
+							if GetVehicleClass(entity) == 8 or GetEntityModel(entity) == `policeb` or GetEntityModel(entity) == `policeb1` or GetEntityModel(entity) == `policeb2`then
 								coords = GetEntityCoords(entity)
 								entityType2 = 2
 							end
