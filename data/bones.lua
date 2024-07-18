@@ -191,18 +191,6 @@ if Config.EnableDefaultOptions then
             end,
             distance = 1.5
         },
-        ["Prendre les appels de la centrale MyTaxis"] = {
-            icon = "fas fa-radio",
-            label = "Prendre les appels de la centrale MyTaxis",
-            job = 'taxi',
-            canInteract = function(entity)
-                return GetVehiclePedIsIn(PlayerPedId()) == entity and GetEntityModel(entity) == `streitertaxi`
-            end,
-            action = function(entity)
-                TriggerEvent('MyCity_Jobs:Taxi:startNpcJob')
-            end,
-            distance = 1.5
-        },
         ["Gérer les clés du véhicule"] = {
             icon = "fas fa-key",
             label = "Gérer les clés du véhicule",
