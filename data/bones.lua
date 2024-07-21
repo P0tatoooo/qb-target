@@ -184,7 +184,7 @@ if Config.EnableDefaultOptions then
             label = "Utiliser la radio longue portée",
             job = {police = 0, ambulance = 0},
             canInteract = function(entity)
-                return GetVehiclePedIsIn(PlayerPedId()) == entity and GetVehicleClass(entity) == 18
+                return GetVehiclePedIsIn(PlayerPedId()) == entity and (GetVehicleClass(entity) == 18 or GetEntityModel(entity) == `polmav`)
             end,
             action = function(entity)
                 TriggerEvent('MyCity_VehicleRadio:ToggleRadio')
@@ -247,7 +247,7 @@ if Config.EnableDefaultOptions then
             label = "Utiliser la radio longue portée",
             job = {police = 0, ambulance = 0},
             canInteract = function(entity)
-                return GetVehiclePedIsIn(PlayerPedId()) == entity and GetVehicleClass(entity) == 18
+                return GetVehiclePedIsIn(PlayerPedId()) == entity and ( GetVehicleClass(entity) == 18 or GetEntityModel(entity) == `polmav`)
             end,
             action = function(entity)
                 TriggerEvent('MyCity_VehicleRadio:ToggleRadio')
