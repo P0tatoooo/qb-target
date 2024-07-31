@@ -182,8 +182,16 @@ if Config.EnableDefaultOptions then
         ["Utiliser la radio longue portée"] = {
             icon = "fas fa-radio",
             label = "Utiliser la radio longue portée",
-            job = {police = 0, ambulance = 0},
+            job = {police = 0, ambulance = 0, taxi = 0},
             canInteract = function(entity)
+                local playerJob = QBCore.Functions.GetPlayerData().job.name
+                if playerJob == 'taxi' then
+                    if GetEntityModel(entity) == `streitertaxi` then
+                        return true
+                    else
+                        return false
+                    end
+                end
                 return GetVehiclePedIsIn(PlayerPedId()) == entity and (GetVehicleClass(entity) == 18 or GetEntityModel(entity) == `polmav`)
             end,
             action = function(entity)
@@ -245,9 +253,17 @@ if Config.EnableDefaultOptions then
         ["Utiliser la radio longue portée"] = {
             icon = "fas fa-radio",
             label = "Utiliser la radio longue portée",
-            job = {police = 0, ambulance = 0},
+            job = {police = 0, ambulance = 0, taxi = 0},
             canInteract = function(entity)
-                return GetVehiclePedIsIn(PlayerPedId()) == entity and ( GetVehicleClass(entity) == 18 or GetEntityModel(entity) == `polmav`)
+                local playerJob = QBCore.Functions.GetPlayerData().job.name
+                if playerJob == 'taxi' then
+                    if GetEntityModel(entity) == `streitertaxi` then
+                        return true
+                    else
+                        return false
+                    end
+                end
+                return GetVehiclePedIsIn(PlayerPedId()) == entity and (GetVehicleClass(entity) == 18 or GetEntityModel(entity) == `polmav`)
             end,
             action = function(entity)
                 TriggerEvent('MyCity_VehicleRadio:ToggleRadio')
@@ -372,7 +388,7 @@ if Config.EnableDefaultOptions then
         ["Utiliser la radio longue portée"] = {
             icon = "fas fa-radio",
             label = "Utiliser la radio longue portée",
-            job = {police = 0, ambulance = 0},
+            job = {police = 0},
             canInteract = function(entity)
                 return GetVehiclePedIsIn(PlayerPedId()) == entity and GetVehicleClass(entity) == 18
             end,
