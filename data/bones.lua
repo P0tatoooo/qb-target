@@ -211,6 +211,30 @@ if Config.EnableDefaultOptions then
             end,
             distance = 1.5
         },
+        ["Allumer le moteur"] = {
+            icon = "fas fa-key",
+            label = "Allumer le moteur",
+            action = function(entity)
+                SetVehicleEngineOn(entity, true, false, true)
+                SetVehicleUndriveable(entity, false)
+            end,
+            canInteract = function(entity)
+                return GetVehiclePedIsIn(PlayerPedId()) == entity and GetVehicleClass(entity) ~= 13 and not GetIsVehicleEngineRunning(entity)
+            end,
+            distance = 1.5
+        },
+        ["Eteindre le moteur"] = {
+            icon = "fas fa-key",
+            label = "Eteindre le moteur",
+            action = function(entity)
+                SetVehicleEngineOn(entity, false, false, true)
+                SetVehicleUndriveable(entity, true)
+            end,
+            canInteract = function(entity)
+                return GetVehiclePedIsIn(PlayerPedId()) == entity and GetVehicleClass(entity) ~= 13 and GetIsVehicleEngineRunning(entity)
+            end,
+            distance = 1.5
+        },
     }
 
     Bones.Options['seat_pside_f'] = {
@@ -406,6 +430,30 @@ if Config.EnableDefaultOptions then
             end,
             action = function(entity)
                 TriggerEvent('MyCity_CoreV2:VehicleLock:OpenVehicleKeysMenu', {entity = entity})
+            end,
+            distance = 1.5
+        },
+        ["Allumer le moteur"] = {
+            icon = "fas fa-key",
+            label = "Allumer le moteur",
+            action = function(entity)
+                SetVehicleEngineOn(entity, true, false, true)
+                SetVehicleUndriveable(entity, false)
+            end,
+            canInteract = function(entity)
+                return GetVehiclePedIsIn(PlayerPedId()) == entity and GetVehicleClass(entity) ~= 13 and not GetIsVehicleEngineRunning(entity)
+            end,
+            distance = 1.5
+        },
+        ["Eteindre le moteur"] = {
+            icon = "fas fa-key",
+            label = "Eteindre le moteur",
+            action = function(entity)
+                SetVehicleEngineOn(entity, false, false, true)
+                SetVehicleUndriveable(entity, true)
+            end,
+            canInteract = function(entity)
+                return GetVehiclePedIsIn(PlayerPedId()) == entity and GetVehicleClass(entity) ~= 13 and GetIsVehicleEngineRunning(entity)
             end,
             distance = 1.5
         },
