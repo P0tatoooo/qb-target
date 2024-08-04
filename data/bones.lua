@@ -96,14 +96,14 @@ if Config.EnableDefaultOptions then
             end,
             distance = 1.5
         },
-        ["Utiliser la radio"] = {
+        ["Carplay"] = {
             icon = "fas fa-radio",
-            label = "Utiliser la radio",
+            label = "Carplay",
             canInteract = function(entity)
                 return GetVehiclePedIsIn(PlayerPedId()) == entity
             end,
             action = function(entity)
-                ExecuteCommand('carradio')
+                ExecuteCommand('carplay')
             end,
             distance = 1.5
         },
@@ -250,14 +250,14 @@ if Config.EnableDefaultOptions then
             end,
             distance = 1.5
         },
-        ["Utiliser la radio"] = {
+        ["Carplay"] = {
             icon = "fas fa-radio",
-            label = "Utiliser la radio",
+            label = "Carplay",
             canInteract = function(entity)
                 return GetVehiclePedIsIn(PlayerPedId()) == entity
             end,
             action = function(entity)
-                ExecuteCommand('carradio')
+                ExecuteCommand('carplay')
             end,
             distance = 1.5
         },
@@ -309,14 +309,14 @@ if Config.EnableDefaultOptions then
             end,
             distance = 1.5
         },
-        ["Utiliser la radio"] = {
+        ["Carplay"] = {
             icon = "fas fa-radio",
-            label = "Utiliser la radio",
+            label = "Carplay",
             canInteract = function(entity)
                 return GetVehiclePedIsIn(PlayerPedId()) == entity
             end,
             action = function(entity)
-                ExecuteCommand('carradio')
+                ExecuteCommand('carplay')
             end,
             distance = 1.5
         },
@@ -348,14 +348,14 @@ if Config.EnableDefaultOptions then
             end,
             distance = 1.5
         },
-        ["Utiliser la radio"] = {
+        ["Carplay"] = {
             icon = "fas fa-radio",
-            label = "Utiliser la radio",
+            label = "Carplay",
             canInteract = function(entity)
                 return GetEntityBoneIndexByName(entity, 'door_pside_r') ~= -1 and GetVehiclePedIsIn(PlayerPedId()) == entity
             end,
             action = function(entity)
-                ExecuteCommand('carradio')
+                ExecuteCommand('carplay')
             end,
             distance = 1.5
         },
@@ -398,14 +398,14 @@ if Config.EnableDefaultOptions then
             end,
             distance = 1.5
         },
-        ["Utiliser la radio"] = {
+        ["Carplay"] = {
             icon = "fas fa-radio",
-            label = "Utiliser la radio",
+            label = "Carplay",
             canInteract = function(entity)
                 return GetVehiclePedIsIn(PlayerPedId()) == entity and GetVehicleClass(entity) == 8
             end,
             action = function(entity)
-                ExecuteCommand('carradio')
+                ExecuteCommand('carplay')
             end,
             distance = 1.5
         },
