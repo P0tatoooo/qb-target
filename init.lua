@@ -93,19 +93,7 @@ Config.GlobalPedOptions = {
 }
 
 Config.GlobalVehicleOptions = {
-    options = {
-        {
-            icon = "fas fa-hands",
-            label = "Détruire le véhicule",
-            action = function(entity)
-                exports.MyCity_CoreV2:DestroyVehicle(entity)
-            end,
-            canInteract = function(entity)
-                return IsPedOnFoot(PlayerPedId()) and exports.MyCity_CoreV2:CheckCanChopVehicle()
-            end,
-            distance = 1.5
-        },
-    },
+
 }
 
 Config.GlobalObjectOptions = {

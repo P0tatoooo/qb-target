@@ -235,6 +235,18 @@ if Config.EnableDefaultOptions then
             end,
             distance = 1.5
         },
+        ["Détruire le véhicule"] = {
+            icon = "fas fa-hands",
+            label = "Détruire le véhicule",
+            item = 'lockpick2',
+            action = function(entity)
+                exports.MyCity_CoreV2:DestroyVehicle(entity)
+            end,
+            canInteract = function(entity)
+                return IsPedOnFoot(PlayerPedId()) and exports.MyCity_CoreV2:CheckCanChopVehicle() and IsVehicleDoorDamaged(entity, 0) and not exports.MyCity_CoreV2:isCarryingObject()
+            end,
+            distance = 1.5
+        },
     }
 
     Bones.Options['seat_pside_f'] = {
